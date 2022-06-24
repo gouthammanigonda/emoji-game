@@ -1,8 +1,8 @@
 // Write your code here.
 import './index.css'
 
-const NavBar = () => {
-  const a = 1
+const NavBar = props => {
+  const {currentScore, isGameProgress, topScore} = props
 
   return (
     <div className="navbarcontainer">
@@ -12,12 +12,14 @@ const NavBar = () => {
           src="https://assets.ccbp.in/frontend/react-js/game-logo-img.png"
           alt="emoji logo"
         />
-        <p className="navheading">Emoji Game</p>
+        <h1 className="navheading">Emoji Game</h1>
       </div>
-      <div className="scorecontainer">
-        <p className="navscores">score:0</p>
-        <p className="navscores">Top Score:3</p>
-      </div>
+      {isGameProgress && (
+        <div className="scorecontainer">
+          <p className="navscores">score:{currentScore}</p>
+          <p className="navscores">Top Score:{topScore}</p>
+        </div>
+      )}
     </div>
   )
 }

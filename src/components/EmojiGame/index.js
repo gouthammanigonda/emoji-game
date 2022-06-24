@@ -19,14 +19,14 @@ import './index.css'
 
 class EmojiGame extends Component {
   state = {
-    clickedEmojiList: [],
+    checkedEmojiList: [],
     isGameProgress: true,
     topScore: 0,
   }
 
   reset = () => {
     this.setState({
-      clickedEmojiList: [],
+      checkedEmojiList: [],
       isGameProgress: true,
     })
   }
@@ -47,10 +47,9 @@ class EmojiGame extends Component {
 
   checkEmoji = id => {
     const {emojisList} = this.props
-    const {clickedEmojiList} = this.state
-    const isEmojiPresent = clickedEmojiList.includes(id)
-    const clickedEmojiLenght = clickedEmojiList.length
-
+    const {checkedEmojiList} = this.state
+    const isEmojiPresent = checkedEmojiList.includes(id)
+    const clickedEmojiLenght = checkedEmojiList.length
     if (isEmojiPresent) {
       this.finishGameAndSetTopscore(clickedEmojiLenght)
     } else {
@@ -64,8 +63,23 @@ class EmojiGame extends Component {
     }
   }
 
+  renderScoreCard = () => {
+    const {checkedEmojiList} = this.state
+    const {emojisList} = this.props
+    return (
+      <div>
+        <WinOrLoseCard
+          isWin={checkedEmojiList.length === emojisList.length}
+          onClickPlayAgain={this.reset}
+          score={checkedEmojiList.length}
+        />
+      </div>
+    )
+  }
+
   renderEmojiLists = () => {
     const shiftedList = this.shuffledEmojisList()
+    console.log(shiftedList)
 
     return (
       <ul className="unorderedlist">
@@ -77,19 +91,18 @@ class EmojiGame extends Component {
   }
 
   render() {
-    const {emojisList} = this.props
     const {checkedEmojiList, isGameProgress, topScore} = this.state
+    console.log(checkedEmojiList)
 
     return (
       <div className="container1">
-        <NavBar />
-
-        <div>
-          <WinOrLoseCard
-            isWin={checkedEmojiList.length === emojisList.length}
-            onClickPlayAgain={this.reset}
-            score={checkedEmojiList.length}
-          />
+        <NavBar
+          currentScore={checkedEmojiList.length}
+          isGameProgress={isGameProgress}
+          topScore={topScore}
+        />
+        <div className="flex">
+          {isGameProgress ? this.renderEmojiLists() : this.renderScoreCard()}
         </div>
       </div>
     )

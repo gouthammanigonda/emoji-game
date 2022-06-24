@@ -22,7 +22,7 @@ const WinOrLoseCard = props => {
         </div>
       </div>
       <div className="wl">
-        <img className="winloseimg" src={imageUrl} alt="win" />
+        <img className="winloseimg" src={imageUrl} alt="win or lose" />
       </div>
     </div>
   )
